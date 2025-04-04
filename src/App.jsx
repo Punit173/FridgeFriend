@@ -7,6 +7,7 @@ import Dashboard from './components/Dashboard'
 import DonationDrive from './components/DonationDrive'
 import Kitchen from './components/Kitchen'
 import LandingPage from './components/LandingPage'
+import Recipe from './components/Recipe'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Signup />} />
         <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/recipe' element={<Recipe />} />
         <Route path='/donation' element={<DonationDrive />} />
         <Route path='/kitchen' element={<Kitchen />} />
       </Routes>
