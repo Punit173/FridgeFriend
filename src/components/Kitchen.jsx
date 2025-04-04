@@ -8,7 +8,7 @@ const Kitchen = () => {
             <Navbar />
             <div className="h-screen flex items-center justify-center bg-gray-200">
                 {/* <Spline scene="https://prod.spline.design/TlqkLfl6LJmJZFj4/scene.splinecode" /> */}
-                <Spline scene="https://prod.spline.design/AAAAx79u6cfve-3i/scene.splinecode" />
+                <Spline scene="https://prod.spline.design/zcs6vGfhbKvor7oc/scene.splinecode" />
             </div>
         </>
     );
