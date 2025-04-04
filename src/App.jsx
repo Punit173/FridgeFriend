@@ -6,11 +6,13 @@ import Signup from './components/Signup'
 import Dashboard from './components/Dashboard'
 import DonationDrive from './components/DonationDrive'
 import Kitchen from './components/Kitchen'
+import LandingPage from './components/LandingPage'
 
 function App() {
   return (
     <>
       <Routes>
+        <Route path='/' element={<LandingPage />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Signup />} />
         <Route path='/dashboard' element={<Dashboard />} />
