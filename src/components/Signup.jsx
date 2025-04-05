@@ -65,18 +65,13 @@ const Signup = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-900 via-teal-900 to-emerald-900 p-4">
-      {/* Main Container */}
       <div className="w-full max-w-md">
-        {/* Card with Glass Effect */}
         <div className="bg-emerald-900/30 backdrop-blur-lg rounded-2xl shadow-2xl p-8 border border-emerald-700/30 relative overflow-hidden">
-          {/* Decorative Elements */}
           <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-teal-500/10 to-emerald-500/10"></div>
           <div className="absolute -top-20 -right-20 w-40 h-40 bg-emerald-500/20 rounded-full blur-3xl"></div>
           <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-teal-500/20 rounded-full blur-3xl"></div>
 
-          {/* Content */}
           <div className="relative z-10">
-            {/* Header */}
             <div className="text-center mb-8">
               <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400 mb-2">
                 FridgeFriend
@@ -84,7 +79,6 @@ const Signup = () => {
               <p className="text-emerald-200">Your Smart Kitchen Assistant</p>
             </div>
 
-            {/* Feature Highlights */}
             <div className="mb-8 grid grid-cols-3 gap-4">
               <div className="bg-emerald-800/30 rounded-lg p-3 text-center border border-emerald-700/30">
                 <span className="text-2xl mb-1">🤖</span>
@@ -100,14 +94,12 @@ const Signup = () => {
               </div>
             </div>
 
-            {/* Error Message */}
             {error && (
               <div className="bg-red-900/30 text-red-300 p-3 rounded-lg mb-4 border border-red-800/50">
                 {error}
               </div>
             )}
 
-            {/* Signup Form */}
             <form onSubmit={handleSignup} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-emerald-200 mb-2">

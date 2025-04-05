@@ -269,7 +269,7 @@ const Dashboard = () => {
                   <p className="text-gray-600 mt-2">Processing image...</p>
                 </div>
               )}
-{/* 
+              {/* 
               {selectedImage && !isProcessing && (
                 <div className="mb-4">
                   <img src={selectedImage} alt="Preview" className="max-h-48 mx-auto" />

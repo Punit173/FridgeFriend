@@ -49,6 +49,9 @@ const Navbar = () => {
                 <Link to="/dashboard" className="text-white hover:text-emerald-200 px-3 py-2 rounded-md text-sm font-medium">
                   Dashboard
                 </Link>
+                <Link to="/community" className="text-white hover:text-emerald-200 px-3 py-2 rounded-md text-sm font-medium">
+                  Community
+                </Link>
                 <Link to="/donation" className="text-white hover:text-emerald-200 px-3 py-2 rounded-md text-sm font-medium">
                   Donation Drive
                 </Link>
