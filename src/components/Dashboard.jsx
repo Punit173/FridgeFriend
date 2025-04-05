@@ -6,8 +6,10 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, 
 import { createWorker } from 'tesseract.js'
 import * as tf from '@tensorflow/tfjs'
 import '@tensorflow/tfjs-backend-webgl'
+import { useNavigate } from 'react-router-dom'
 
 const Dashboard = () => {
+  const navigate = useNavigate()
   const [purchases, setPurchases] = useState([])
   const [loading, setLoading] = useState(true)
   const [showAddModal, setShowAddModal] = useState(false)
@@ -107,24 +109,19 @@ const Dashboard = () => {
     const canvas = canvasRef.current
     const context = canvas.getContext('2d')
 
-    // Set canvas dimensions to match video
     canvas.width = video.videoWidth
     canvas.height = video.videoHeight
 
-    // Draw current video frame to canvas
     context.drawImage(video, 0, 0, canvas.width, canvas.height)
 
-    // Convert canvas to tensor
     const imageTensor = tf.browser.fromPixels(canvas)
       .resizeNearestNeighbor([224, 224]) // Adjust size based on your model's input requirements
       .expandDims()
       .toFloat()
       .div(255.0)
 
-    // Make prediction
     const predictions = await model.predict(imageTensor).data()
 
-    // Process predictions (adjust based on your model's output format)
     const confidence = Math.max(...predictions)
     const condition = confidence > 0.7 ? 'Good' : 'Poor'
 
@@ -160,17 +157,14 @@ const Dashboard = () => {
       const [x, y, width, height] = detection.bbox
       const label = `${detection.class} (${Math.round(detection.confidence * 100)}%)`
 
-      // Draw bounding box
       ctx.strokeStyle = '#00FF00'
       ctx.lineWidth = 2
       ctx.strokeRect(x, y, width, height)
 
-      // Draw label background
       ctx.fillStyle = '#00FF00'
       const textWidth = ctx.measureText(label).width
       ctx.fillRect(x, y - 20, textWidth + 10, 20)
 
-      // Draw label text
       ctx.fillStyle = '#000000'
       ctx.font = '14px Arial'
       ctx.fillText(label, x + 5, y - 5)
@@ -184,18 +178,15 @@ const Dashboard = () => {
     detections.forEach(detection => {
       const { x, y, width, height, label, confidence } = detection
 
-      // Draw bounding box
       ctx.strokeStyle = '#00FF00'
       ctx.lineWidth = 2
       ctx.strokeRect(x, y, width, height)
 
-      // Draw label background
       ctx.fillStyle = '#00FF00'
       const text = `${label} (${Math.round(confidence * 100)}%)`
       const textWidth = ctx.measureText(text).width
       ctx.fillRect(x, y - 20, textWidth + 10, 20)
 
-      // Draw label text
       ctx.fillStyle = '#000000'
       ctx.font = '14px Arial'
       ctx.fillText(text, x + 5, y - 5)
@@ -209,7 +200,6 @@ const Dashboard = () => {
     const videoWidth = video.videoWidth
     const videoHeight = video.videoHeight
 
-    // Create a canvas for processing
     const canvas = document.createElement('canvas')
     canvas.width = videoWidth
     canvas.height = videoHeight
@@ -217,27 +207,22 @@ const Dashboard = () => {
     context.drawImage(video, 0, 0, videoWidth, videoHeight)
 
     try {
-      // Convert canvas to tensor and preprocess
       const imageTensor = tf.browser.fromPixels(canvas)
         .resizeNearestNeighbor([224, 224])
         .expandDims()
         .toFloat()
         .div(255.0)
 
-      // Make prediction
       const predictions = await model.predict(imageTensor).data()
 
-      // Get top predictions (top 3)
       const topPredictions = Array.from(predictions)
         .map((prob, index) => ({ probability: prob, index }))
         .sort((a, b) => b.probability - a.probability)
         .slice(0, 3)
 
-      // Load class names
       const response = await fetch('https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/labels.json')
       const classNames = await response.json()
 
-      // Food items to detect with their common variations
       const foodItems = {
         'banana': ['banana', 'bananas'],
         'apple': ['apple', 'apples'],
@@ -261,13 +246,11 @@ const Dashboard = () => {
         'kiwi': ['kiwi', 'kiwis']
       }
 
-      // Check each prediction for food items
       const foodDetections = []
       topPredictions.forEach(prediction => {
         const detectedItem = classNames[prediction.index].toLowerCase()
         const confidence = prediction.probability
 
-        // Check if the detected item matches any food item
         for (const [food, variations] of Object.entries(foodItems)) {
           if (variations.some(variation =>
             stringSimilarity(detectedItem, variation) > 0.7
@@ -275,14 +258,13 @@ const Dashboard = () => {
             foodDetections.push({
               food,
               confidence,
-              bbox: [0, 0, videoWidth, videoHeight] // Full frame detection
+              bbox: [0, 0, videoWidth, videoHeight]
             })
             break
           }
         }
       })
 
-      // Draw detections
       if (canvasRef.current) {
         const ctx = canvasRef.current.getContext('2d')
         ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height)
@@ -290,28 +272,23 @@ const Dashboard = () => {
         foodDetections.forEach(detection => {
           const [x, y, width, height] = detection.bbox
 
-          // Draw bounding box
           ctx.strokeStyle = '#00FF00'
           ctx.lineWidth = 3
           ctx.strokeRect(x, y, width, height)
 
-          // Draw label background
           ctx.fillStyle = '#00FF00'
           const text = `${detection.food} (${Math.round(detection.confidence * 100)}%)`
           const textWidth = ctx.measureText(text).width
           ctx.fillRect(x, y - 20, textWidth + 10, 20)
 
-          // Draw label text
           ctx.fillStyle = '#000000'
           ctx.font = '14px Arial'
           ctx.fillText(text, x + 5, y - 5)
         })
       }
 
-      // Update state
       setDetectionBoxes(foodDetections)
 
-      // Clean up
       imageTensor.dispose()
       canvas.remove()
 
@@ -319,15 +296,12 @@ const Dashboard = () => {
       console.error('Error in detection:', error)
     }
 
-    // Schedule next frame
     if (isDetecting) {
       animationFrameRef.current = requestAnimationFrame(detectFrame)
     }
   }
 
   const getModelResponse = async (condition, confidence) => {
-    // Here you would integrate with your model API
-    // For now, returning a mock response
     return `Product condition: ${condition}\nConfidence: ${Math.round(confidence * 100)}%\nShelf life: ${Math.round(confidence * 14)} days`
   }
 
@@ -668,6 +642,22 @@ const Dashboard = () => {
       setSelectedImage(null)
     } catch (error) {
       console.error('Error adding product:', error.message)
+    }
+  }
+
+  const handleDelete = async (id) => {
+    try {
+      const { error } = await supabase
+        .from('Product Data')
+        .delete()
+        .eq('id', id)
+
+      if (error) throw error
+
+      // Refresh the purchases list
+      fetchPurchases()
+    } catch (error) {
+      console.error('Error deleting product:', error.message)
     }
   }
 
@@ -1110,6 +1100,7 @@ const Dashboard = () => {
                 <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
                 <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Expiry Date</th>
                 <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Remaining Days</th>
+                <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -1128,6 +1119,22 @@ const Dashboard = () => {
                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${purchase.remaining_days < 7 ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}`}>
                       {purchase.remaining_days} days
                     </span>
+                  </td>
+                  <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <div className="flex space-x-2">
+                      <button
+                        onClick={() => handleDelete(purchase.id)}
+                        className="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-xs"
+                      >
+                        Delete
+                      </button>
+                      <button
+                        onClick={() => navigate('/donation', { state: { product: purchase } })}
+                        className="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded text-xs"
+                      >
+                        Donate
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
