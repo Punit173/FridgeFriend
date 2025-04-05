@@ -42,7 +42,6 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:flex space-x-8">
             {isAuthenticated ? (
               <>
@@ -58,7 +57,7 @@ const Navbar = () => {
                 <Link to="/kitchen" className="text-white hover:text-emerald-200 px-3 py-2 rounded-md text-sm font-medium">
                   Virtual Kitchen
                 </Link>
-                <Link to="/kitchen" className="text-white hover:text-emerald-200 px-3 py-2 rounded-md text-sm font-medium">
+                <Link to="/recipe" className="text-white hover:text-emerald-200 px-3 py-2 rounded-md text-sm font-medium">
                   Recipe
                 </Link>
                 <button
