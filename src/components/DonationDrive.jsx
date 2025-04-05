@@ -51,6 +51,7 @@ const DonationDrive = () => {
   const [route, setRoute] = useState([])
   const [communities, setCommunities] = useState([])
   const [selectedCommunity, setSelectedCommunity] = useState('')
+  const [selectedCommunityCredits, setSelectedCommunityCredits] = useState(0)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -78,25 +79,33 @@ const DonationDrive = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      // Update the community's food_saved_kg
-      const { error: updateError } = await supabase
-        .from('communities')
-        .update({
-          food_saved_kg: supabase.rpc('increment_food_saved', {
-            community_id: selectedCommunity,
-            amount: parseFloat(quantity)
-          })
-        })
-        .eq('id', selectedCommunity)
+      // Calculate credits based on quantity (1 credit per 5kg)
+      const credits = Math.floor(parseFloat(quantity) / 5)
+      const foodAmount = parseFloat(quantity)
 
-      if (updateError) throw updateError
+      // First update food_saved_kg
+      const { error: foodError } = await supabase.rpc('increment_food_saved', {
+        community_id: selectedCommunity,
+        amount: foodAmount
+      })
+
+      if (foodError) throw foodError
+
+      // Then update credits
+      const { error: creditsError } = await supabase.rpc('increment_credits', {
+        community_id: selectedCommunity,
+        amount: credits
+      })
+
+      if (creditsError) throw creditsError
 
       // Log the donation details
       console.log({
         selectedCategory,
         quantity,
         selectedLocation,
-        selectedCommunity
+        selectedCommunity,
+        credits
       })
 
       // Reset form
@@ -110,6 +119,17 @@ const DonationDrive = () => {
 
     } catch (err) {
       console.error('Error submitting donation:', err)
+    }
+  }
+
+  const handleCommunitySelect = (e) => {
+    const communityId = e.target.value
+    setSelectedCommunity(communityId)
+    if (communityId) {
+      const selected = communities.find(c => c.id === communityId)
+      setSelectedCommunityCredits(selected?.credits || 0)
+    } else {
+      setSelectedCommunityCredits(0)
     }
   }
 
@@ -185,23 +205,39 @@ const DonationDrive = () => {
                   required
                   min="1"
                 />
+                {quantity && (
+                  <div className="mt-2 p-2 bg-blue-50 rounded-md">
+                    <p className="text-sm text-blue-700">
+                      This donation will earn: <span className="font-semibold">{Math.floor(parseFloat(quantity) / 5)} credits</span>
+                      <br />
+                      <span className="text-xs">(1 credit per 5kg)</span>
+                    </p>
+                  </div>
+                )}
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700">Select Community</label>
                 <select
                   value={selectedCommunity}
-                  onChange={(e) => setSelectedCommunity(e.target.value)}
+                  onChange={handleCommunitySelect}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                   required
                 >
                   <option value="">Select a community</option>
                   {communities.map((community) => (
                     <option key={community.id} value={community.id}>
-                      {community.name}
+                      {community.name} ({community.credits || 0} credits)
                     </option>
                   ))}
                 </select>
+                {selectedCommunity && (
+                  <div className="mt-2 p-2 bg-green-50 rounded-md">
+                    <p className="text-sm text-green-700">
+                      Current Credits: <span className="font-semibold">{selectedCommunityCredits}</span>
+                    </p>
+                  </div>
+                )}
               </div>
 
               {selectedLocation && (

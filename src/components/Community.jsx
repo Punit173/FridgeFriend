@@ -256,6 +256,50 @@ const Community = () => {
                     )}
                 </div>
 
+                {/* Leaderboard Section */}
+                <div className="mb-12">
+                    <h2 className="text-2xl font-bold mb-6 text-emerald-800">Community Leaderboard</h2>
+                    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                        <table className="min-w-full divide-y divide-gray-200">
+                            <thead className="bg-gray-50">
+                                <tr>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rank</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Community</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Food Saved (kg)</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Members</th>
+                                </tr>
+                            </thead>
+                            <tbody className="bg-white divide-y divide-gray-200">
+                                {[...communities]
+                                    .sort((a, b) => b.food_saved_kg - a.food_saved_kg)
+                                    .slice(0, 10)
+                                    .map((community, index) => (
+                                        <tr key={community.id} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                                {index + 1}
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                {community.name}
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-emerald-600">
+                                                <div className="flex items-center">
+                                                    <FaLeaf className="mr-2" />
+                                                    {community.food_saved_kg}
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                <div className="flex items-center">
+                                                    <FaUsers className="mr-2" />
+                                                    {community.member_count}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
                 {/* Available Communities Section */}
                 <div>
                     <h2 className="text-2xl font-bold mb-6 text-emerald-800">Available Communities</h2>
