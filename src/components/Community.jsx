@@ -56,7 +56,7 @@ const Community = () => {
             if (error) throw error
             // console.log(data)
             setJoinedCommunities(data?.map(uc => uc.communities).filter(Boolean) || [])
-            console.log(joinedCommunities)
+            // console.log(joinedCommunities)
         } catch (err) {
             console.error('Failed to fetch joined communities:', err)
         }
@@ -146,192 +146,182 @@ const Community = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen bg-gray-900">
             <Navbar />
             <div className="container mx-auto px-4 py-8">
-                {error && (
-                    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                        {error}
+                <div className="max-w-7xl mx-auto">
+                    <div className="flex justify-between items-center mb-8">
+                        <h1 className="text-3xl font-bold text-white">Communities</h1>
+                        <button
+                            onClick={() => setShowCreateModal(true)}
+                            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center"
+                        >
+                            <FaPlus className="mr-2" />
+                            Create Community
+                        </button>
                     </div>
-                )}
 
-                <div className="flex justify-end mb-6">
-                    <button
-                        onClick={() => setShowCreateModal(true)}
-                        className="flex items-center bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 transition-colors"
-                    >
-                        <FaPlus className="mr-2" />
-                        Create Community
-                    </button>
-                </div>
+                    {error && (
+                        <div className="bg-red-900/50 text-red-200 p-4 rounded-lg mb-6">
+                            {error}
+                        </div>
+                    )}
 
-                {showCreateModal && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                        <div className="bg-white rounded-lg p-6 max-w-md w-full">
-                            <div className="flex justify-between items-center mb-4">
-                                <h2 className="text-2xl font-bold text-emerald-800">Create New Community</h2>
-                                <button
-                                    onClick={() => setShowCreateModal(false)}
-                                    className="text-gray-500 hover:text-gray-700"
-                                >
-                                    <FaTimes />
-                                </button>
+                    {/* Joined Communities Section */}
+                    <div className="mb-12">
+                        <h2 className="text-2xl font-bold mb-6 text-white">Your Communities</h2>
+                        {joinedCommunities.length === 0 ? (
+                            <div className="bg-gray-800 p-6 rounded-lg text-gray-300">
+                                You haven't joined any communities yet.
                             </div>
-                            <form onSubmit={createCommunity} className="space-y-4">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Community Name
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={newCommunity.name}
-                                        onChange={(e) => setNewCommunity({ ...newCommunity, name: e.target.value })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Description
-                                    </label>
-                                    <textarea
-                                        value={newCommunity.description}
-                                        onChange={(e) => setNewCommunity({ ...newCommunity, description: e.target.value })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                                        rows="3"
-                                        required
-                                    />
-                                </div>
-                                <div className="flex justify-end space-x-3">
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowCreateModal(false)}
-                                        className="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300"
-                                    >
-                                        Cancel
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        className="px-4 py-2 bg-emerald-500 text-white rounded-md hover:bg-emerald-600"
-                                    >
-                                        Create
-                                    </button>
-                                </div>
-                            </form>
+                        ) : (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {joinedCommunities.map(community => (
+                                    <div key={community.id} className="bg-gray-800 rounded-lg shadow-lg p-6">
+                                        <div className="flex items-center justify-between mb-4">
+                                            <h3 className="text-xl font-semibold text-white">{community.name}</h3>
+                                            <span className="flex items-center text-gray-400">
+                                                <FaUsers className="mr-2" />
+                                                {community.member_count}
+                                            </span>
+                                        </div>
+                                        <p className="text-gray-400 mb-4">{community.description}</p>
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center text-blue-400">
+                                                <FaLeaf className="mr-2" />
+                                                <span>{community.food_saved_kg} kg saved</span>
+                                            </div>
+                                            <div className="flex items-center text-green-400">
+                                                <FaCheck className="mr-2" />
+                                                <span>Joined</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="mb-12">
+                        <h2 className="text-2xl font-bold mb-6 text-white">Community Leaderboard</h2>
+                        <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                            <table className="min-w-full divide-y divide-gray-700">
+                                <thead className="bg-gray-700">
+                                    <tr>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Rank</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Community</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Food Saved (kg)</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Members</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="bg-gray-800 divide-y divide-gray-700">
+                                    {[...communities]
+                                        .sort((a, b) => b.food_saved_kg - a.food_saved_kg)
+                                        .slice(0, 10)
+                                        .map((community, index) => (
+                                            <tr key={community.id} className={index % 2 === 0 ? 'bg-gray-800' : 'bg-gray-700'}>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
+                                                    {index + 1}
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                                                    {community.name}
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-400">
+                                                    <div className="flex items-center">
+                                                        <FaLeaf className="mr-2" />
+                                                        {community.food_saved_kg}
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                                    <div className="flex items-center">
+                                                        <FaUsers className="mr-2" />
+                                                        {community.member_count}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                )}
 
-                <div className="mb-12">
-                    <h2 className="text-2xl font-bold mb-6 text-emerald-800">Your Communities</h2>
-                    {joinedCommunities.length === 0 ? (
-                        <div className="text-center text-gray-600 py-8">
-                            You haven't joined any communities yet
-                        </div>
-                    ) : (
+                    <div>
+                        <h2 className="text-2xl font-bold mb-6 text-white">Available Communities</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {joinedCommunities.map(community => (
-                                <div key={community.id} className="bg-white rounded-lg shadow-md p-6">
+                            {communities.filter(c => !isJoined(c.id)).map(community => (
+                                <div key={community.id} className="bg-gray-800 rounded-lg shadow-lg p-6">
                                     <div className="flex items-center justify-between mb-4">
-                                        <h3 className="text-xl font-semibold text-emerald-800">{community.name}</h3>
-                                        <span className="flex items-center text-gray-600">
+                                        <h3 className="text-xl font-semibold text-white">{community.name}</h3>
+                                        <span className="flex items-center text-gray-400">
                                             <FaUsers className="mr-2" />
                                             {community.member_count}
                                         </span>
                                     </div>
-                                    <p className="text-gray-600 mb-4">{community.description}</p>
+                                    <p className="text-gray-400 mb-4">{community.description}</p>
                                     <div className="flex items-center justify-between">
-                                        <div className="flex items-center text-emerald-600">
+                                        <div className="flex items-center text-blue-400">
                                             <FaLeaf className="mr-2" />
                                             <span>{community.food_saved_kg} kg saved</span>
                                         </div>
-                                        <div className="flex items-center text-emerald-600">
-                                            <FaCheck className="mr-2" />
-                                            <span>Joined</span>
-                                        </div>
+                                        <button
+                                            onClick={() => joinCommunity(community.id)}
+                                            className="flex items-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+                                        >
+                                            <FaPlus className="mr-2" />
+                                            Join
+                                        </button>
                                     </div>
                                 </div>
                             ))}
                         </div>
-                    )}
-                </div>
-
-                {/* Leaderboard Section */}
-                <div className="mb-12">
-                    <h2 className="text-2xl font-bold mb-6 text-emerald-800">Community Leaderboard</h2>
-                    <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                        <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rank</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Community</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Food Saved (kg)</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Members</th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                {[...communities]
-                                    .sort((a, b) => b.food_saved_kg - a.food_saved_kg)
-                                    .slice(0, 10)
-                                    .map((community, index) => (
-                                        <tr key={community.id} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                {index + 1}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                {community.name}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-emerald-600">
-                                                <div className="flex items-center">
-                                                    <FaLeaf className="mr-2" />
-                                                    {community.food_saved_kg}
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                <div className="flex items-center">
-                                                    <FaUsers className="mr-2" />
-                                                    {community.member_count}
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                {/* Available Communities Section */}
-                <div>
-                    <h2 className="text-2xl font-bold mb-6 text-emerald-800">Available Communities</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {communities.filter(c => !isJoined(c.id)).map(community => (
-                            <div key={community.id} className="bg-white rounded-lg shadow-md p-6">
-                                <div className="flex items-center justify-between mb-4">
-                                    <h3 className="text-xl font-semibold text-emerald-800">{community.name}</h3>
-                                    <span className="flex items-center text-gray-600">
-                                        <FaUsers className="mr-2" />
-                                        {community.member_count}
-                                    </span>
-                                </div>
-                                <p className="text-gray-600 mb-4">{community.description}</p>
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center text-emerald-600">
-                                        <FaLeaf className="mr-2" />
-                                        <span>{community.food_saved_kg} kg saved</span>
-                                    </div>
-                                    <button
-                                        onClick={() => joinCommunity(community.id)}
-                                        className="flex items-center bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 transition-colors"
-                                    >
-                                        <FaPlus className="mr-2" />
-                                        Join
-                                    </button>
-                                </div>
-                            </div>
-                        ))}
                     </div>
                 </div>
             </div>
+
+            {showCreateModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+                    <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full mx-4">
+                        <h2 className="text-2xl font-bold mb-4 text-white">Create New Community</h2>
+                        <form onSubmit={createCommunity} className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-300 mb-2">Community Name</label>
+                                <input
+                                    type="text"
+                                    value={newCommunity.name}
+                                    onChange={(e) => setNewCommunity({ ...newCommunity, name: e.target.value })}
+                                    className="w-full p-2 border border-gray-600 rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-300 mb-2">Description</label>
+                                <textarea
+                                    value={newCommunity.description}
+                                    onChange={(e) => setNewCommunity({ ...newCommunity, description: e.target.value })}
+                                    className="w-full p-2 border border-gray-600 rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    rows="3"
+                                    required
+                                />
+                            </div>
+                            <div className="flex space-x-4">
+                                <button
+                                    type="submit"
+                                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors"
+                                >
+                                    Create
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setShowCreateModal(false)}
+                                    className="flex-1 bg-gray-700 hover:bg-gray-600 text-gray-300 py-2 px-4 rounded-lg transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

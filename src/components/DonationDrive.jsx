@@ -136,12 +136,12 @@ const DonationDrive = () => {
   const center = [19.0760, 72.8777] // Mumbai coordinates
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-900">
       <Navbar />
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Map Section */}
-          <div className="bg-white rounded-lg shadow-lg p-4 h-[600px]">
+          <div className="bg-gray-800 rounded-lg shadow-lg p-4 h-[600px]">
             <MapContainer center={center} zoom={12} style={{ height: '100%', width: '100%' }}>
               <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -157,7 +157,7 @@ const DonationDrive = () => {
                     }}
                   >
                     <Popup>
-                      <div>
+                      <div className="text-gray-900">
                         <h3 className="font-bold">{location.name}</h3>
                         <p>{category}</p>
                         {location.capacity && <p>Capacity: {location.capacity} kg</p>}
@@ -175,15 +175,15 @@ const DonationDrive = () => {
           </div>
 
           {/* Form Section */}
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-bold mb-6">Food Donation Form</h2>
+          <div className="bg-gray-800 rounded-lg shadow-lg p-6">
+            <h2 className="text-2xl font-bold mb-6 text-white">Food Donation Form</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Food Category</label>
+                <label className="block text-sm font-medium text-gray-300">Food Category</label>
                 <select
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                  className="mt-1 block w-full rounded-md border-gray-600 bg-gray-700 text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   required
                 >
                   <option value="">Select a category</option>
@@ -196,18 +196,18 @@ const DonationDrive = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">Quantity (kg)</label>
+                <label className="block text-sm font-medium text-gray-300">Quantity (kg)</label>
                 <input
                   type="number"
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                  className="mt-1 block w-full rounded-md border-gray-600 bg-gray-700 text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   required
                   min="1"
                 />
                 {quantity && (
-                  <div className="mt-2 p-2 bg-blue-50 rounded-md">
-                    <p className="text-sm text-blue-700">
+                  <div className="mt-2 p-2 bg-blue-900/50 rounded-md">
+                    <p className="text-sm text-blue-200">
                       This donation will earn: <span className="font-semibold">{Math.floor(parseFloat(quantity) / 5)} credits</span>
                       <br />
                       <span className="text-xs">(1 credit per 5kg)</span>
@@ -217,11 +217,11 @@ const DonationDrive = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">Select Community</label>
+                <label className="block text-sm font-medium text-gray-300">Select Community</label>
                 <select
                   value={selectedCommunity}
                   onChange={handleCommunitySelect}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                  className="mt-1 block w-full rounded-md border-gray-600 bg-gray-700 text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   required
                 >
                   <option value="">Select a community</option>
@@ -232,8 +232,8 @@ const DonationDrive = () => {
                   ))}
                 </select>
                 {selectedCommunity && (
-                  <div className="mt-2 p-2 bg-green-50 rounded-md">
-                    <p className="text-sm text-green-700">
+                  <div className="mt-2 p-2 bg-green-900/50 rounded-md">
+                    <p className="text-sm text-green-200">
                       Current Credits: <span className="font-semibold">{selectedCommunityCredits}</span>
                     </p>
                   </div>
@@ -241,10 +241,10 @@ const DonationDrive = () => {
               </div>
 
               {selectedLocation && (
-                <div className="p-4 bg-gray-50 rounded-md">
-                  <h3 className="font-medium">Selected Location</h3>
-                  <p>{selectedLocation.name}</p>
-                  <p className="text-sm text-gray-500">
+                <div className="p-4 bg-gray-700 rounded-md">
+                  <h3 className="font-medium text-white">Selected Location</h3>
+                  <p className="text-gray-300">{selectedLocation.name}</p>
+                  <p className="text-sm text-gray-400">
                     {selectedLocation.capacity
                       ? `Capacity: ${selectedLocation.capacity} kg`
                       : selectedLocation.surplus
@@ -257,7 +257,7 @@ const DonationDrive = () => {
               <button
                 type="submit"
                 onClick={handleSubmission}
-                className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800"
               >
                 Submit Donation
               </button>

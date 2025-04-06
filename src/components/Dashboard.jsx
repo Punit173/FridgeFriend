@@ -1072,7 +1072,7 @@ const Dashboard = () => {
                   </Pie>
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: '#1F2937',
+                      backgroundColor: '#ffffff',
                       border: '1px solid #374151',
                       borderRadius: '8px',
                       color: '#F3F4F6'

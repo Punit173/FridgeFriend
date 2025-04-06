@@ -66,11 +66,11 @@ const Recipe = () => {
   const videoId = extractVideoId(videoUrl)
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-900">
       <Navbar />
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-3xl mx-auto">
-          <h1 className="text-3xl font-bold text-center mb-8">Recipe Generator</h1>
+          <h1 className="text-3xl font-bold text-center mb-8 text-white">Recipe Generator</h1>
 
           <form onSubmit={handleSubmit} className="mb-8">
             <div className="flex gap-4">
@@ -79,12 +79,12 @@ const Recipe = () => {
                 value={recipeQuery}
                 onChange={(e) => setRecipeQuery(e.target.value)}
                 placeholder="What recipe would you like to make? (e.g., chocolate cake, pasta carbonara)"
-                className="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 p-3 border border-gray-600 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <button
                 type="submit"
                 disabled={isLoading}
-                className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-blue-300"
+                className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-900"
               >
                 {isLoading ? 'Generating...' : 'Generate Recipe'}
               </button>
@@ -92,7 +92,7 @@ const Recipe = () => {
           </form>
 
           {error && (
-            <div className="p-4 mb-4 text-red-700 bg-red-100 rounded-lg">
+            <div className="p-4 mb-4 text-red-200 bg-red-900/50 rounded-lg">
               {error}
             </div>
           )}
@@ -100,8 +100,8 @@ const Recipe = () => {
           {recipe && (
             <div className="space-y-8">
               {videoId && (
-                <div className="bg-white p-6 rounded-lg shadow-lg">
-                  <h2 className="text-2xl font-bold mb-4">Video Tutorial</h2>
+                <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+                  <h2 className="text-2xl font-bold mb-4 text-white">Video Tutorial</h2>
                   <div className="aspect-w-16 aspect-h-9">
                     <iframe
                       src={`https://www.youtube.com/embed/${videoId}`}
@@ -114,7 +114,7 @@ const Recipe = () => {
                 </div>
               )}
 
-              <div className="prose max-w-none bg-white p-6 rounded-lg shadow-lg">
+              <div className="prose max-w-none bg-gray-800 p-6 rounded-lg shadow-lg text-gray-300">
                 <ReactMarkdown>{recipe}</ReactMarkdown>
               </div>
             </div>
