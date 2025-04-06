@@ -99,7 +99,7 @@ const Recipe = () => {
 
           {recipe && (
             <div className="space-y-8">
-              {videoId && (
+              {/* {videoId && (
                 <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
                   <h2 className="text-2xl font-bold mb-4 text-white">Video Tutorial</h2>
                   <div className="aspect-w-16 aspect-h-9">
@@ -112,7 +112,7 @@ const Recipe = () => {
                     ></iframe>
                   </div>
                 </div>
-              )}
+              )} */}
 
               <div className="prose max-w-none bg-gray-800 p-6 rounded-lg shadow-lg text-gray-300">
                 <ReactMarkdown>{recipe}</ReactMarkdown>
