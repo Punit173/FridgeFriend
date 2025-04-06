@@ -955,14 +955,14 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-900">
       <Navbar />
       <div className="container mx-auto px-4 py-8">
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-800">My Fridge</h1>
-            <p className="text-gray-600 mt-2">Manage your food items and track expiry dates</p>
+            <h1 className="text-3xl font-bold text-white">My Fridge</h1>
+            <p className="text-gray-400 mt-2">Manage your food items and track expiry dates</p>
           </div>
           <button
             onClick={handleAddItem}
@@ -977,48 +977,48 @@ const Dashboard = () => {
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-xl shadow-sm">
+          <div className="bg-gray-800 p-6 rounded-xl shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-500">Total Items</p>
-                <h3 className="text-2xl font-bold text-gray-800 mt-1">{purchases.length}</h3>
+                <p className="text-gray-400">Total Items</p>
+                <h3 className="text-2xl font-bold text-white mt-1">{purchases.length}</h3>
               </div>
-              <div className="bg-blue-100 p-3 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="bg-blue-900 p-3 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
               </div>
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow-sm">
+          <div className="bg-gray-800 p-6 rounded-xl shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-500">Expiring Soon</p>
-                <h3 className="text-2xl font-bold text-red-600 mt-1">
+                <p className="text-gray-400">Expiring Soon</p>
+                <h3 className="text-2xl font-bold text-red-400 mt-1">
                   {purchases.filter(item => item.remaining_days <= 1).length}
                 </h3>
               </div>
-              <div className="bg-red-100 p-3 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="bg-red-900 p-3 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
               </div>
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow-sm">
+          <div className="bg-gray-800 p-6 rounded-xl shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-500">Average Shelf Life</p>
-                <h3 className="text-2xl font-bold text-green-600 mt-1">
+                <p className="text-gray-400">Average Shelf Life</p>
+                <h3 className="text-2xl font-bold text-green-400 mt-1">
                   {purchases.length > 0
                     ? Math.round(purchases.reduce((acc, item) => acc + item.remaining_days, 0) / purchases.length)
                     : 0} days
                 </h3>
               </div>
-              <div className="bg-green-100 p-3 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="bg-green-900 p-3 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
@@ -1028,19 +1028,20 @@ const Dashboard = () => {
 
         {/* Charts Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          <div className="bg-white p-6 rounded-xl shadow-sm">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">Days Until Expiry</h2>
+          <div className="bg-gray-800 p-6 rounded-xl shadow-sm">
+            <h2 className="text-xl font-semibold text-white mb-4">Days Until Expiry</h2>
             <div className="h-[300px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={expiryData}>
-                  <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-                  <XAxis dataKey="name" angle={-45} textAnchor="end" height={60} />
-                  <YAxis />
+                  <CartesianGrid strokeDasharray="3 3" className="opacity-30" stroke="#374151" />
+                  <XAxis dataKey="name" angle={-45} textAnchor="end" height={60} stroke="#9CA3AF" />
+                  <YAxis stroke="#9CA3AF" />
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: 'white',
+                      backgroundColor: '#1F2937',
+                      border: '1px solid #374151',
                       borderRadius: '8px',
-                      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                      color: '#F3F4F6'
                     }}
                   />
                   <Legend />
@@ -1050,8 +1051,8 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow-sm">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">Product Quantities</h2>
+          <div className="bg-gray-800 p-6 rounded-xl shadow-sm">
+            <h2 className="text-xl font-semibold text-white mb-4">Product Quantities</h2>
             <div className="h-[300px]">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -1071,9 +1072,10 @@ const Dashboard = () => {
                   </Pie>
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: 'white',
+                      backgroundColor: '#1F2937',
+                      border: '1px solid #374151',
                       borderRadius: '8px',
-                      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                      color: '#F3F4F6'
                     }}
                   />
                 </PieChart>
@@ -1083,48 +1085,48 @@ const Dashboard = () => {
         </div>
 
         {/* Items Table */}
-        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div className="bg-gray-800 rounded-xl shadow-sm overflow-hidden">
           <div className="p-6">
-            <h2 className="text-xl font-semibold text-gray-800">Your Items</h2>
+            <h2 className="text-xl font-semibold text-white">Your Items</h2>
           </div>
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-gray-700">
+              <thead className="bg-gray-700">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Expiry Date</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Product</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Quantity</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Expiry Date</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Status</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-gray-800 divide-y divide-gray-700">
                 {purchases.map((purchase) => (
                   <tr
                     key={purchase.id}
-                    className={`hover:bg-gray-50 transition-colors ${purchase.remaining_days <= 1 ? 'bg-red-50 animate-pulse' : ''
+                    className={`hover:bg-gray-700 transition-colors ${purchase.remaining_days <= 1 ? 'bg-red-900/30 animate-pulse' : ''
                       }`}
                   >
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">{purchase.product_name}</div>
+                          <div className="text-sm font-medium text-white">{purchase.product_name}</div>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{purchase.quantity}</div>
+                      <div className="text-sm text-gray-300">{purchase.quantity}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{purchase.formatted_expiry}</div>
+                      <div className="text-sm text-gray-300">{purchase.formatted_expiry}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
                         className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${purchase.remaining_days <= 1
-                          ? 'bg-red-100 text-red-800'
+                          ? 'bg-red-900 text-red-200'
                           : purchase.remaining_days <= 7
-                            ? 'bg-yellow-100 text-yellow-800'
-                            : 'bg-green-100 text-green-800'
+                            ? 'bg-yellow-900 text-yellow-200'
+                            : 'bg-green-900 text-green-200'
                           }`}
                       >
                         {purchase.remaining_days} days
@@ -1134,7 +1136,7 @@ const Dashboard = () => {
                       <div className="flex space-x-2">
                         <button
                           onClick={() => handleDelete(purchase.id)}
-                          className="text-red-600 hover:text-red-900"
+                          className="text-red-400 hover:text-red-300"
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
@@ -1142,7 +1144,7 @@ const Dashboard = () => {
                         </button>
                         <button
                           onClick={() => navigate('/donation', { state: { product: purchase } })}
-                          className="text-blue-600 hover:text-blue-900"
+                          className="text-blue-400 hover:text-blue-300"
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
@@ -1160,10 +1162,10 @@ const Dashboard = () => {
 
       {/* Modals */}
       {showAddModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-            <h2 className="text-xl font-semibold mb-4">Add New Item</h2>
-            <p className="text-gray-600 mb-4">Choose how you want to add the item:</p>
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+          <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full mx-4">
+            <h2 className="text-xl font-semibold text-white mb-4">Add New Item</h2>
+            <p className="text-gray-400 mb-4">Choose how you want to add the item:</p>
 
             <div className="space-y-4">
               <button
@@ -1171,7 +1173,7 @@ const Dashboard = () => {
                   closeModal()
                   setShowModelModal(true)
                 }}
-                className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors"
+                className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
               >
                 Using Detection Model
               </button>
@@ -1181,7 +1183,7 @@ const Dashboard = () => {
                   setShowAddModal(false)
                   setShowImageModal(true)
                 }}
-                className="w-full bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors"
+                className="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors"
               >
                 Extract Expiry by Image
               </button>
@@ -1189,7 +1191,7 @@ const Dashboard = () => {
 
             <button
               onClick={closeModal}
-              className="mt-4 w-full bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
+              className="mt-4 w-full bg-gray-700 text-gray-300 py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors"
             >
               Cancel
             </button>
@@ -1198,145 +1200,157 @@ const Dashboard = () => {
       )}
 
       {showImageModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-            <h2 className="text-xl font-semibold mb-4">Upload Product Image</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+          <div className="bg-gray-800 rounded-lg p-6 max-w-4xl w-full mx-4">
+            <h2 className="text-xl font-semibold text-white mb-4">Upload Product Image</h2>
 
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
-                Upload Image
-              </label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="w-full p-2 border rounded"
-                disabled={isProcessing}
-              />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Image Upload Section */}
+              <div className="space-y-4">
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Upload Image
+                  </label>
+                  <div className="flex items-center justify-center w-full">
+                    <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-600 border-dashed rounded-lg cursor-pointer bg-gray-700 hover:bg-gray-600">
+                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                        <svg className="w-8 h-8 mb-4 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                          <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                        </svg>
+                        <p className="mb-2 text-sm text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                        <p className="text-xs text-gray-400">PNG, JPG or JPEG (MAX. 800x400px)</p>
+                      </div>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                        disabled={isProcessing}
+                      />
+                    </label>
+                  </div>
+                </div>
+
+                {isProcessing && (
+                  <div className="mb-4 text-center">
+                    <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mx-auto"></div>
+                    <p className="text-gray-400 mt-2">Processing image...</p>
+                  </div>
+                )}
+
+                {selectedImage && !isProcessing && (
+                  <div className="mb-4">
+                    <img src={selectedImage} alt="Preview" className="w-full h-auto max-h-96 object-contain rounded-lg" />
+                  </div>
+                )}
+              </div>
+
+              {/* Form Section */}
+              <div className="space-y-4">
+                <form onSubmit={handleFormSubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Product Name
+                    </label>
+                    <input
+                      type="text"
+                      name="productName"
+                      value={formData.productName}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full p-2 border border-gray-600 rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Quantity
+                    </label>
+                    <input
+                      type="number"
+                      name="quantity"
+                      value={formData.quantity}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full p-2 border border-gray-600 rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Purchase Date
+                    </label>
+                    <input
+                      type="date"
+                      name="purchaseDate"
+                      value={formData.purchaseDate}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full p-2 border border-gray-600 rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Expiry Date (Extracted)
+                    </label>
+                    <input
+                      type="date"
+                      name="expiryDate"
+                      value={formData.expiryDate}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full p-2 border border-gray-600 rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+
+                  <div className="flex space-x-4 pt-4">
+                    <button
+                      type="submit"
+                      className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                      Add Product
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowImageModal(false)
+                        setSelectedImage(null)
+                        setFormData({
+                          productName: '',
+                          quantity: '',
+                          purchaseDate: '',
+                          expiryDate: ''
+                        })
+                      }}
+                      className="flex-1 bg-gray-700 text-gray-300 py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
-
-            {isProcessing && (
-              <div className="mb-4 text-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mx-auto"></div>
-                <p className="text-gray-600 mt-2">Processing image...</p>
-              </div>
-            )}
-
-            {selectedImage && !isProcessing && (
-              <div className="mb-4">
-                <img src={selectedImage} alt="Preview" className="max-h-48 mx-auto" />
-              </div>
-            )}
-
-            {extractedText && !isProcessing && (
-              <div className="mb-4 p-4 bg-gray-50 rounded">
-                <h3 className="text-sm font-semibold mb-2">Extracted Text:</h3>
-                <p className="text-sm text-gray-600 whitespace-pre-wrap">{extractedText}</p>
-              </div>
-            )}
-
-            <form onSubmit={handleFormSubmit} className="space-y-4">
-              <div>
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Product Name
-                </label>
-                <input
-                  type="text"
-                  name="productName"
-                  value={formData.productName}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-
-              <div>
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Quantity
-                </label>
-                <input
-                  type="number"
-                  name="quantity"
-                  value={formData.quantity}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-
-              <div>
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Purchase Date
-                </label>
-                <input
-                  type="date"
-                  name="purchaseDate"
-                  value={formData.purchaseDate}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-
-              <div>
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Expiry Date (Extracted)
-                </label>
-                <input
-                  type="date"
-                  name="expiryDate"
-                  value={formData.expiryDate}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-
-              <div className="flex space-x-4">
-                <button
-                  type="submit"
-                  className="flex-1 bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors"
-                >
-                  Add Product
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowImageModal(false)
-                    setSelectedImage(null)
-                    setFormData({
-                      productName: '',
-                      quantity: '',
-                      purchaseDate: '',
-                      expiryDate: ''
-                    })
-                  }}
-                  className="flex-1 bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
           </div>
         </div>
       )}
 
       {showModelModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-2xl mx-4">
-            <h2 className="text-xl font-semibold mb-4">Upload Image for Detection</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+          <div className="bg-gray-800 rounded-lg p-6 w-full max-w-2xl mx-4">
+            <h2 className="text-xl font-semibold text-white mb-4">Upload Image for Detection</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <div className="mb-4">
-                  <label className="block text-gray-700 text-sm font-bold mb-2">
+                  <label className="block text-gray-300 text-sm font-bold mb-2">
                     Upload Image
                   </label>
                   <input
                     type="file"
                     accept="image/*"
                     onChange={handleModelDetection}
-                    className="w-full p-2 border rounded"
+                    className="w-full p-2 border border-gray-600 rounded-lg bg-gray-700 text-white"
                     disabled={isProcessing}
                   />
                 </div>
@@ -1344,7 +1358,7 @@ const Dashboard = () => {
                 {isProcessing && (
                   <div className="mb-4 text-center">
                     <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mx-auto"></div>
-                    <p className="text-gray-600 mt-2">Processing image...</p>
+                    <p className="text-gray-400 mt-2">Processing image...</p>
                   </div>
                 )}
 
@@ -1358,21 +1372,21 @@ const Dashboard = () => {
               {modelResults.condition && !isProcessing && (
                 <div className="space-y-4">
                   <div className="mb-4">
-                    <h3 className="text-lg font-medium mb-2">Detection Results</h3>
-                    <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
-                      <span>{modelResults.condition}</span>
-                      <span className="text-blue-600 font-medium">{modelResults.confidence}% confidence</span>
+                    <h3 className="text-lg font-medium text-white mb-2">Detection Results</h3>
+                    <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                      <span className="text-gray-300">{modelResults.condition}</span>
+                      <span className="text-blue-400 font-medium">{modelResults.confidence}% confidence</span>
                     </div>
                   </div>
 
                   <div className="mb-4">
-                    <h3 className="text-lg font-medium mb-2">Spoilage Analysis</h3>
-                    <div className="p-3 bg-gray-50 rounded space-y-2">
+                    <h3 className="text-lg font-medium text-white mb-2">Spoilage Analysis</h3>
+                    <div className="p-3 bg-gray-700 rounded space-y-2">
                       <div className="flex justify-between">
-                        <span>Condition:</span>
-                        <span className={`font-medium ${modelResults.spoilageLevel === 'Spoiled' ? 'text-red-600' :
-                          modelResults.spoilageLevel === 'Starting to Spoil' ? 'text-yellow-600' :
-                            'text-green-600'
+                        <span className="text-gray-300">Condition:</span>
+                        <span className={`font-medium ${modelResults.spoilageLevel === 'Spoiled' ? 'text-red-400' :
+                          modelResults.spoilageLevel === 'Starting to Spoil' ? 'text-yellow-400' :
+                            'text-green-400'
                           }`}>
                           {modelResults.spoilageLevel}
                         </span>
@@ -1381,19 +1395,19 @@ const Dashboard = () => {
                   </div>
 
                   <div className="mb-4">
-                    <h3 className="text-lg font-medium mb-2">Adjusted Shelf Life</h3>
-                    <p className="p-3 bg-gray-50 rounded">{modelResults.shelfLife}</p>
+                    <h3 className="text-lg font-medium text-white mb-2">Adjusted Shelf Life</h3>
+                    <p className="p-3 bg-gray-700 rounded text-gray-300">{modelResults.shelfLife}</p>
                   </div>
 
                   <div className="mb-4">
-                    <h3 className="text-lg font-medium mb-2">Suggested Expiry Date</h3>
-                    <p className="p-3 bg-gray-50 rounded">{modelResults.suggestedExpiry}</p>
+                    <h3 className="text-lg font-medium text-white mb-2">Suggested Expiry Date</h3>
+                    <p className="p-3 bg-gray-700 rounded text-gray-300">{modelResults.suggestedExpiry}</p>
                   </div>
 
                   <div className="flex space-x-4">
                     <button
                       onClick={handleModelSubmit}
-                      className="flex-1 bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors"
+                      className="flex-1 bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors"
                     >
                       Add to Database
                     </button>
@@ -1408,7 +1422,7 @@ const Dashboard = () => {
                           suggestedExpiry: ''
                         })
                       }}
-                      className="flex-1 bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
+                      className="flex-1 bg-gray-700 text-gray-300 py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors"
                     >
                       Cancel
                     </button>
@@ -1421,9 +1435,9 @@ const Dashboard = () => {
       )}
 
       {showCameraModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-            <h2 className="text-xl font-semibold mb-4">Camera Detection</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+          <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full mx-4">
+            <h2 className="text-xl font-semibold text-white mb-4">Camera Detection</h2>
 
             <div className="relative mb-4">
               <video
@@ -1438,7 +1452,7 @@ const Dashboard = () => {
                 style={{ pointerEvents: 'none' }}
               />
               {modelResponse && (
-                <div className="absolute bottom-4 left-4 bg-black bg-opacity-50 text-white p-2 rounded-lg max-w-xs">
+                <div className="absolute bottom-4 left-4 bg-gray-900/90 text-white p-2 rounded-lg max-w-xs">
                   <pre className="text-sm whitespace-pre-wrap">{modelResponse}</pre>
                 </div>
               )}
@@ -1448,14 +1462,14 @@ const Dashboard = () => {
               {!isWebcamActive ? (
                 <button
                   onClick={startCamera}
-                  className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors"
+                  className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
                 >
                   Start Camera
                 </button>
               ) : (
                 <button
                   onClick={stopCamera}
-                  className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition-colors"
+                  className="bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors"
                 >
                   Stop Camera
                 </button>
@@ -1467,7 +1481,7 @@ const Dashboard = () => {
                   setDetectedObjects([])
                   setModelResponse('')
                 }}
-                className="bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
+                className="bg-gray-700 text-gray-300 py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors"
               >
                 Cancel
               </button>
@@ -1485,7 +1499,7 @@ const Dashboard = () => {
                     setShowCameraModal(false)
                     setShowModelModal(true)
                   }}
-                  className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors"
+                  className="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors"
                 >
                   Use Current Detection
                 </button>
