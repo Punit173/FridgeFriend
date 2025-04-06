@@ -578,12 +578,10 @@ const Dashboard = () => {
       }
     }
 
-    // Calculate spoilage percentage
     const brownPercentage = (brownPixels / totalPixels) * 100
     const darkPercentage = (darkPixels / totalPixels) * 100
     const spoilagePercentage = (brownPercentage + darkPercentage) / 2
 
-    // Determine spoilage level and shelf life reduction
     let spoilageLevel = 'Fresh'
     let shelfLifeReduction = 0
     if (spoilagePercentage > 30) {
@@ -647,7 +645,6 @@ const Dashboard = () => {
 
         const predictions = await model.detect(canvas)
 
-        // Filter for food-related classes
         const foodPredictions = predictions.filter(pred => {
           const foodClasses = [
             'apple', 'banana', 'orange', 'sandwich', 'broccoli', 'carrot',
@@ -663,7 +660,6 @@ const Dashboard = () => {
           if (currentConfidence > bestConfidence) {
             bestConfidence = currentConfidence
             bestDetection = foodPredictions[0]
-            // Analyze spoilage for the best detection
             spoilageInfo = detectSpoilage(canvas, bestDetection)
           }
         }
@@ -683,13 +679,11 @@ const Dashboard = () => {
         throw new Error('Unable to detect any food items in the image')
       }
 
-      // Only proceed if confidence is 50% or higher
       if (bestConfidence >= 0.5) {
         const detectedClass = bestDetection.class.toLowerCase()
         const detectedFood = detectFoodItem(detectedClass)
         const baseShelfLife = shelfLifeMap[detectedFood] || 7
 
-        // Adjust shelf life based on spoilage
         const adjustedShelfLife = Math.max(1, Math.floor(baseShelfLife * (1 - spoilageInfo.shelfLifeReduction)))
 
         const today = new Date()
@@ -729,10 +723,8 @@ const Dashboard = () => {
     }
   }
 
-  // Helper function to map ImageNet classes to food items
   const detectFoodItem = (className) => {
     const foodMappings = {
-      // Fruits
       'banana': ['banana', 'bananas'],
       'apple': ['apple', 'apples'],
       'orange': ['orange', 'oranges'],
@@ -756,7 +748,6 @@ const Dashboard = () => {
       'pomegranate': ['pomegranate', 'pomegranates'],
       'avocado': ['avocado', 'avocados'],
 
-      // Vegetables
       'carrot': ['carrot', 'carrots'],
       'lettuce': ['lettuce'],
       'broccoli': ['broccoli'],
@@ -1332,107 +1323,99 @@ const Dashboard = () => {
 
       {showModelModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+          <div className="bg-white rounded-lg p-6 w-full max-w-2xl mx-4">
             <h2 className="text-xl font-semibold mb-4">Upload Image for Detection</h2>
 
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
-                Upload Image
-              </label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleModelDetection}
-                className="w-full p-2 border rounded"
-                disabled={isProcessing}
-              />
-            </div>
-
-            {isProcessing && (
-              <div className="mb-4 text-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mx-auto"></div>
-                <p className="text-gray-600 mt-2">Processing image...</p>
-              </div>
-            )}
-
-            {selectedImage && !isProcessing && (
-              <div className="mb-4">
-                <img src={selectedImage} alt="Preview" className="max-h-48 mx-auto" />
-              </div>
-            )}
-
-            {modelResults.condition && !isProcessing && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <div className="mb-4">
-                  <h3 className="text-lg font-medium mb-2">Detection Results</h3>
-                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
-                    <span>{modelResults.condition}</span>
-                    <span className="text-blue-600 font-medium">{modelResults.confidence}% confidence</span>
+                  <label className="block text-gray-700 text-sm font-bold mb-2">
+                    Upload Image
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleModelDetection}
+                    className="w-full p-2 border rounded"
+                    disabled={isProcessing}
+                  />
+                </div>
+
+                {isProcessing && (
+                  <div className="mb-4 text-center">
+                    <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mx-auto"></div>
+                    <p className="text-gray-600 mt-2">Processing image...</p>
                   </div>
-                </div>
+                )}
 
-                <div className="mb-4">
-                  <h3 className="text-lg font-medium mb-2">Spoilage Analysis</h3>
-                  <div className="p-3 bg-gray-50 rounded space-y-2">
-                    <div className="flex justify-between">
-                      <span>Condition:</span>
-                      <span className={`font-medium ${modelResults.spoilageLevel === 'Spoiled' ? 'text-red-600' :
-                        modelResults.spoilageLevel === 'Starting to Spoil' ? 'text-yellow-600' :
-                          'text-green-600'
-                        }`}>
-                        {modelResults.spoilageLevel}
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Total Spoilage:</span>
-                      <span>{modelResults.spoilagePercentage}%</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Brown Spots:</span>
-                      <span>{modelResults.spoilageDetails.brownSpots}%</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Dark Spots:</span>
-                      <span>{modelResults.spoilageDetails.darkSpots}%</span>
-                    </div>
+                {selectedImage && !isProcessing && (
+                  <div className="mb-4">
+                    <img src={selectedImage} alt="Preview" className="w-full h-auto max-h-96 object-contain rounded-lg" />
                   </div>
-                </div>
-
-                <div className="mb-4">
-                  <h3 className="text-lg font-medium mb-2">Adjusted Shelf Life</h3>
-                  <p className="p-3 bg-gray-50 rounded">{modelResults.shelfLife}</p>
-                </div>
-
-                <div className="mb-4">
-                  <h3 className="text-lg font-medium mb-2">Suggested Expiry Date</h3>
-                  <p className="p-3 bg-gray-50 rounded">{modelResults.suggestedExpiry}</p>
-                </div>
-
-                <div className="flex space-x-4">
-                  <button
-                    onClick={handleModelSubmit}
-                    className="flex-1 bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors"
-                  >
-                    Add to Database
-                  </button>
-                  <button
-                    onClick={() => {
-                      setShowModelModal(false)
-                      setSelectedImage(null)
-                      setModelResults({
-                        condition: '',
-                        confidence: 0,
-                        shelfLife: '',
-                        suggestedExpiry: ''
-                      })
-                    }}
-                    className="flex-1 bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
-                  >
-                    Cancel
-                  </button>
-                </div>
+                )}
               </div>
-            )}
+
+              {modelResults.condition && !isProcessing && (
+                <div className="space-y-4">
+                  <div className="mb-4">
+                    <h3 className="text-lg font-medium mb-2">Detection Results</h3>
+                    <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
+                      <span>{modelResults.condition}</span>
+                      <span className="text-blue-600 font-medium">{modelResults.confidence}% confidence</span>
+                    </div>
+                  </div>
+
+                  <div className="mb-4">
+                    <h3 className="text-lg font-medium mb-2">Spoilage Analysis</h3>
+                    <div className="p-3 bg-gray-50 rounded space-y-2">
+                      <div className="flex justify-between">
+                        <span>Condition:</span>
+                        <span className={`font-medium ${modelResults.spoilageLevel === 'Spoiled' ? 'text-red-600' :
+                          modelResults.spoilageLevel === 'Starting to Spoil' ? 'text-yellow-600' :
+                            'text-green-600'
+                          }`}>
+                          {modelResults.spoilageLevel}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mb-4">
+                    <h3 className="text-lg font-medium mb-2">Adjusted Shelf Life</h3>
+                    <p className="p-3 bg-gray-50 rounded">{modelResults.shelfLife}</p>
+                  </div>
+
+                  <div className="mb-4">
+                    <h3 className="text-lg font-medium mb-2">Suggested Expiry Date</h3>
+                    <p className="p-3 bg-gray-50 rounded">{modelResults.suggestedExpiry}</p>
+                  </div>
+
+                  <div className="flex space-x-4">
+                    <button
+                      onClick={handleModelSubmit}
+                      className="flex-1 bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors"
+                    >
+                      Add to Database
+                    </button>
+                    <button
+                      onClick={() => {
+                        setShowModelModal(false)
+                        setSelectedImage(null)
+                        setModelResults({
+                          condition: '',
+                          confidence: 0,
+                          shelfLife: '',
+                          suggestedExpiry: ''
+                        })
+                      }}
+                      className="flex-1 bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
