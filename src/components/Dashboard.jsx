@@ -1073,10 +1073,10 @@ const Dashboard = () => {
                   />
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: '#1F2937',
+                      backgroundColor: '#ffffff',
                       border: '1px solid #374151',
                       borderRadius: '8px',
-                      color: '#F3F4F6'
+                      color: '#000000'
                     }}
                     cursor={{ fill: 'rgba(59, 130, 246, 0.1)' }}
                     formatter={(value) => [`${value} days`, 'Remaining']}
@@ -1138,7 +1138,7 @@ const Dashboard = () => {
                   </Pie>
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: '#1F2937',
+                      backgroundColor: '#ffffff',
                       border: '1px solid #374151',
                       borderRadius: '8px',
                       color: '#F3F4F6'
@@ -1157,7 +1157,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Items Table */}
         <div className="bg-gray-800 rounded-xl shadow-sm overflow-hidden">
           <div className="p-6">
             <h2 className="text-xl font-semibold text-white">Your Items</h2>

@@ -44,7 +44,6 @@ const LandingPage = () => {
         <div className="absolute inset-0 bg-[#0a192f]/80 backdrop-blur-sm" />
       </div>
 
-      {/* Hero Section */}
       <section className="container mx-auto px-4 py-20 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
