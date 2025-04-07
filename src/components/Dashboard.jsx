@@ -1164,7 +1164,7 @@ const Dashboard = () => {
                 {purchases.map((purchase) => (
                   <tr
                     key={purchase.id}
-                    className={`hover:bg-gray-700 transition-colors ${purchase.remaining_days <= 1 ? 'bg-red-900/30 animate-pulse' : ''
+                    className={`hover:bg-gray-700 transition-colors ${purchase.remaining_days < 0 ? 'bg-red-900/30 animate-pulse' : ''
                       }`}
                   >
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -1182,14 +1182,16 @@ const Dashboard = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
-                        className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${purchase.remaining_days <= 1
+                        className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${purchase.remaining_days < 0
                           ? 'bg-red-900 text-red-200'
-                          : purchase.remaining_days <= 7
-                            ? 'bg-yellow-900 text-yellow-200'
-                            : 'bg-green-900 text-green-200'
+                          : purchase.remaining_days <= 1
+                            ? 'bg-red-900 text-red-200'
+                            : purchase.remaining_days <= 7
+                              ? 'bg-yellow-900 text-yellow-200'
+                              : 'bg-green-900 text-green-200'
                           }`}
                       >
-                        {purchase.remaining_days} days
+                        {purchase.remaining_days < 0 ? 'Expired' : `${purchase.remaining_days} days`}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -1202,14 +1204,16 @@ const Dashboard = () => {
                             <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
                           </svg>
                         </button>
-                        <button
-                          onClick={() => navigate('/donation', { state: { product: purchase } })}
-                          className="text-blue-400 hover:text-blue-300"
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
-                          </svg>
-                        </button>
+                        {purchase.remaining_days >= 0 && (
+                          <button
+                            onClick={() => navigate('/donation', { state: { product: purchase } })}
+                            className="text-blue-400 hover:text-blue-300"
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                              <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
+                            </svg>
+                          </button>
+                        )}
                       </div>
                     </td>
                   </tr>

@@ -1,9 +1,0 @@
-{
-  "name": "send-email",
-  "version": "1.0.0",
-  "description": "Supabase Edge Function for sending emails",
-  "main": "index.ts",
-  "dependencies": {
-    "nodemailer": "^6.9.7"
-  }
-} 
