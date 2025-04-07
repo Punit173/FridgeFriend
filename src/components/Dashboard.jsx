@@ -1028,14 +1028,49 @@ const Dashboard = () => {
 
         {/* Charts Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          <div className="bg-gray-800 p-6 rounded-xl shadow-sm">
+          <div className="bg-gray-800 p-6 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300">
             <h2 className="text-xl font-semibold text-white mb-4">Days Until Expiry</h2>
             <div className="h-[300px]">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={expiryData}>
-                  <CartesianGrid strokeDasharray="3 3" className="opacity-30" stroke="#374151" />
-                  <XAxis dataKey="name" angle={-45} textAnchor="end" height={60} stroke="#9CA3AF" />
-                  <YAxis stroke="#9CA3AF" />
+                <BarChart
+                  data={expiryData}
+                  margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
+                  barSize={40}
+                >
+                  <defs>
+                    <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.8} />
+                      <stop offset="95%" stopColor="#3B82F6" stopOpacity={0.2} />
+                    </linearGradient>
+                    <linearGradient id="warningGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#F59E0B" stopOpacity={0.8} />
+                      <stop offset="95%" stopColor="#F59E0B" stopOpacity={0.2} />
+                    </linearGradient>
+                    <linearGradient id="dangerGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#EF4444" stopOpacity={0.8} />
+                      <stop offset="95%" stopColor="#EF4444" stopOpacity={0.2} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    className="opacity-30"
+                    stroke="#374151"
+                    vertical={false}
+                  />
+                  <XAxis
+                    dataKey="name"
+                    angle={-45}
+                    textAnchor="end"
+                    height={60}
+                    stroke="#9CA3AF"
+                    tick={{ fill: '#9CA3AF' }}
+                    axisLine={{ stroke: '#374151' }}
+                  />
+                  <YAxis
+                    stroke="#9CA3AF"
+                    tick={{ fill: '#9CA3AF' }}
+                    axisLine={{ stroke: '#374151' }}
+                  />
                   <Tooltip
                     contentStyle={{
                       backgroundColor: '#1F2937',
@@ -1043,15 +1078,38 @@ const Dashboard = () => {
                       borderRadius: '8px',
                       color: '#F3F4F6'
                     }}
+                    cursor={{ fill: 'rgba(59, 130, 246, 0.1)' }}
+                    formatter={(value) => [`${value} days`, 'Remaining']}
                   />
-                  <Legend />
-                  <Bar dataKey="days" fill="#3B82F6" radius={[4, 4, 0, 0]} />
+                  <Legend
+                    verticalAlign="top"
+                    height={36}
+                    wrapperStyle={{
+                      color: '#9CA3AF'
+                    }}
+                  />
+                  <Bar
+                    dataKey="days"
+                    radius={[6, 6, 0, 0]}
+                    animationDuration={1500}
+                    animationBegin={0}
+                    animationEasing="ease-in-out"
+                  >
+                    {expiryData.map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={entry.days <= 1 ? 'url(#dangerGradient)' :
+                          entry.days <= 7 ? 'url(#warningGradient)' :
+                            'url(#colorGradient)'}
+                      />
+                    ))}
+                  </Bar>
                 </BarChart>
               </ResponsiveContainer>
             </div>
           </div>
 
-          <div className="bg-gray-800 p-6 rounded-xl shadow-sm">
+          <div className="bg-gray-800 p-6 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300">
             <h2 className="text-xl font-semibold text-white mb-4">Product Quantities</h2>
             <div className="h-[300px]">
               <ResponsiveContainer width="100%" height="100%">
@@ -1061,21 +1119,36 @@ const Dashboard = () => {
                     cx="50%"
                     cy="50%"
                     labelLine={false}
-                    outerRadius={80}
+                    outerRadius={100}
+                    innerRadius={60}
                     fill="#8884d8"
                     dataKey="quantity"
                     label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                    animationDuration={1500}
+                    animationBegin={0}
                   >
                     {quantityData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                        stroke="#1F2937"
+                        strokeWidth={2}
+                      />
                     ))}
                   </Pie>
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: '#ffffff',
+                      backgroundColor: '#1F2937',
                       border: '1px solid #374151',
                       borderRadius: '8px',
                       color: '#F3F4F6'
+                    }}
+                  />
+                  <Legend
+                    verticalAlign="bottom"
+                    height={36}
+                    wrapperStyle={{
+                      color: '#9CA3AF'
                     }}
                   />
                 </PieChart>

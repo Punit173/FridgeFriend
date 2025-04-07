@@ -33,7 +33,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className={`shadow-lg ${isAuthenticated ? 'bg-emerald-600' : 'bg-white'}`}>
+    <nav className={`shadow-lg ${isAuthenticated ? 'bg-gradient-to-br from-emerald-900 via-teal-900 to-emerald-900' : 'bg-white'}`}>
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
@@ -45,19 +45,19 @@ const Navbar = () => {
           <div className="hidden md:flex space-x-8">
             {isAuthenticated ? (
               <>
-                <Link to="/dashboard" className="text-white hover:text-emerald-200 px-3 py-2 rounded-md text-sm font-medium">
+                <Link to="/dashboard" className="text-white hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium">
                   Dashboard
                 </Link>
-                <Link to="/community" className="text-white hover:text-emerald-200 px-3 py-2 rounded-md text-sm font-medium">
+                <Link to="/community" className="text-white hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium">
                   Community
                 </Link>
-                <Link to="/donation" className="text-white hover:text-emerald-200 px-3 py-2 rounded-md text-sm font-medium">
+                <Link to="/donation" className="text-white hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium">
                   Donation Drive
                 </Link>
-                <Link to="/kitchen" className="text-white hover:text-emerald-200 px-3 py-2 rounded-md text-sm font-medium">
+                <Link to="/kitchen" className="text-white hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium">
                   Virtual Kitchen
                 </Link>
-                <Link to="/recipe" className="text-white hover:text-emerald-200 px-3 py-2 rounded-md text-sm font-medium">
+                <Link to="/recipe" className="text-white hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium">
                   Recipe
                 </Link>
                 <button
@@ -160,6 +160,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      <div className='h-1 mt-1 blur-sm bg-lime-300'></div>
     </nav>
   )
 }
