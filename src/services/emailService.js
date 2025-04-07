@@ -1,11 +1,10 @@
 import nodemailer from 'nodemailer';
 
-// Create a transporter object using Gmail SMTP
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'devanshigenai24@gmail.com', // Your Gmail address
-    pass: 'Mini@210569' // Your Gmail password or app password
+    user: '', // Your Gmail address
+    pass: '' // Your Gmail password or app password
   }
 });
 
@@ -30,7 +29,6 @@ export const sendExpiryNotification = async (item, userEmail) => {
       </div>
     `;
 
-    // Email options
     const mailOptions = {
       from: 'devanshigenai24@gmail.com',
       to: userEmail,

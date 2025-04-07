@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from './supabase'
+import logo from '../assets/Group 3.png'
 
 const Navbar = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -35,8 +36,9 @@ const Navbar = () => {
   return (
     <nav className={`shadow-lg ${isAuthenticated ? 'bg-gradient-to-br from-emerald-900 via-teal-900 to-emerald-900' : 'bg-white'}`}>
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center content-center h-16">
           <div className="flex items-center">
+            <img src={logo} className='w-10 mt-1' alt="" />
             <Link to="/" className={`text-2xl font-bold ${isAuthenticated ? 'text-white' : 'text-gray-800'}`}>
               FridgeFriend
             </Link>
@@ -79,7 +81,6 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Mobile menu button */}
           <div className="md:hidden">
             <button
               onClick={toggleMenu}
@@ -111,7 +112,6 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
         <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'}`}>
           <div className="px-2 pt-2 pb-3 space-y-1">
             {isAuthenticated ? (
@@ -121,6 +121,12 @@ const Navbar = () => {
                   className="block text-white hover:text-emerald-200 px-3 py-2 rounded-md text-base font-medium"
                 >
                   Dashboard
+                </Link>
+                <Link
+                  to="/community"
+                  className="block text-white hover:text-emerald-200 px-3 py-2 rounded-md text-base font-medium"
+                >
+                  Community
                 </Link>
                 <Link
                   to="/donation"
@@ -133,6 +139,12 @@ const Navbar = () => {
                   className="block text-white hover:text-emerald-200 px-3 py-2 rounded-md text-base font-medium"
                 >
                   Virtual Kitchen
+                </Link>
+                <Link
+                  to="/recipe"
+                  className="block text-white hover:text-emerald-200 px-3 py-2 rounded-md text-base font-medium"
+                >
+                  Recipe
                 </Link>
                 <button
                   onClick={handleLogout}

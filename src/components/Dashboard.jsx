@@ -868,19 +868,14 @@ const Dashboard = () => {
         throw new Error('User not authenticated')
       }
 
-      // Validate expiry date
       if (!modelResults.suggestedExpiry) {
         throw new Error('Please select an expiry date')
       }
 
-      // Get current date in YYYY-MM-DD format
       const currentDate = new Date().toISOString().split('T')[0]
 
-      // Extract the detected item name from modelResults.condition
-      // Format is usually "Detected: item_name"
       const detectedItem = modelResults.condition.replace('Detected: ', '').trim()
 
-      // Prepare the data for insertion
       const newItem = {
         product_name: detectedItem || 'Unknown Item',
         quantity: parseInt(formData.quantity) || 1,
@@ -889,7 +884,6 @@ const Dashboard = () => {
         user_id: user.id
       }
 
-      // Insert the data into the 'Product Data' table
       const { data, error } = await supabase
         .from('Product Data')
         .insert([newItem])
@@ -897,13 +891,10 @@ const Dashboard = () => {
 
       if (error) throw error
 
-      // Show success message
       alert('Item added successfully to the database!')
 
-      // Fetch updated purchases to refresh the table
       await fetchPurchases()
 
-      // Check for items expiring in 1 day or less
       const expiringItems = purchases.filter(item => item.remaining_days <= 1)
       if (expiringItems.length > 0) {
         expiringItems.forEach(item => sendExpiryNotification(item))
@@ -958,7 +949,6 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gray-900">
       <Navbar />
       <div className="container mx-auto px-4 py-8">
-        {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold text-white">My Fridge</h1>
@@ -975,7 +965,6 @@ const Dashboard = () => {
           </button>
         </div>
 
-        {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-gray-800 p-6 rounded-xl shadow-sm">
             <div className="flex items-center justify-between">
@@ -1026,7 +1015,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Charts Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           <div className="bg-gray-800 p-6 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300">
             <h2 className="text-xl font-semibold text-white mb-4">Days Until Expiry</h2>
